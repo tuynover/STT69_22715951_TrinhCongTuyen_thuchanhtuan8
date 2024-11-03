@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <style>
+        .maudo {
+            font-size: 100%;
+            color: red;
+        }
+
+        [class*="col-"] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
+        li {
+            width: 150px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            var i = 2;
+
+            // Hiển thị modal khi nhấn vào nút "Đăng ký"
+            $("#btndk").click(function () {
+                $("#mymodal").modal("show");
+            });
+
+            // Kiểm tra mã học viên
+            function kiemtrama() {
+                var maukt = /^[0-9]{9}$/;  // Mẫu kiểm tra phải là 9 chữ số
+                if ($("#txtma").val() == "") {
+                    $("#tbma").html("Bắt buộc nhập");
+                    $("#tbma").addClass("maudo");
+                    return false;
+                } else if (!maukt.test($("#txtma").val())) {
+                    $("#tbma").html("Mã học viên phải gồm 9 chữ số");
+                    $("#tbma").addClass("maudo");
+                    return false;
+                } else {
+                    $("#tbma").html("*");
+                    return true;
+                }
+            }
+            $("#txtma").blur(kiemtrama);
+
+            // Kiểm tra họ tên
+            function kiemtraht() {
+                var maukt = /^[A-Z][a-z]*(\s[A-Z][a-z]*)+$/;  // Mẫu kiểm tra họ tên hợp lệ
+                if ($("#txtht").val() == "") {
+                    $("#tbten").html("Bắt buộc nhập");
+                    $("#tbten").addClass("maudo");
+                    return false;
+                } else if (!maukt.test($("#txtht").val())) {
+                    $("#tbten").html("Chữ cái đầu của mỗi từ phải viết hoa");
+                    $("#tbten").addClass("maudo");
+                    return false;
+                } else {
+                    $("#tbten").html("*");
+                    return true;
+                }
+            }
+            $("#txtht").blur(kiemtraht);
+
+            // Kiểm tra địa chỉ (email)
+            function kiemtradc() {
+                var maukt = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                if ($("#txtdc").val() == "") {
+                    $("#tbemail").html("Bắt buộc nhập");
+                    $("#tbemail").addClass("maudo");
+                    return false;
+                } else if (!maukt.test($("#txtdc").val())) {
+                    $("#tbemail").html("Email không hợp lệ");
+                    $("#tbemail").addClass("maudo");
+                    return false;
+                } else {
+                    $("#tbemail").html("*");
+                    return true;
+                }
+            }
+            $("#txtdc").blur(kiemtradc);
+
+            // Xử lý logic khi chọn dịch vụ
+            $("#slgia").change(function () {
+                var gia = $("#slgia option:selected").val();
+                $("#txtdv").val(gia);
+            });
+            $("#chkdodung").click(function () {
+        var tiendd=0;
+        var n= $(".chkdodung:checked").length;
+      if(n==0){
+        $(".chkdodung:unchecked").each(function () {
+          tiendd=0;
+          $("#txtdd").val(tiendd);
+          });
+      }
+      if(n>0){
+        $(".chkdodung:checked").each(function(){
+          tiendd+=parseFloat($(this).val());
+          $("#txtdd").val(tiendd);
+        });
+      }
+      var tong=parseFloat($("#txtdd").val())+parseFloat($("#txtdv").val());
+      $("#txttong").val(tong)
+      })
+
+            // Lưu thông tin sau khi thanh toán
+            $("#btnsave").click(function () {
+                if (kiemtrama() && kiemtraht() && kiemtradc()) {
+                    var ma = $("#txtma").val();
+                    var ht = $("#txtht").val();
+                    var dc = $("#txtdc").val();
+                    var tdv = $("#txtdv").val();
+                    var tdd = $("#txtdd").val();
+                    var tong = $("#txttong").val();
+                    var them = "<tr><td>" + (i++) + "</td><td>" + ma + "</td><td>" + ht + "</td><td>" + dc + "</td><td>" + tdv + "</td><td>" + tdd + "</td><td>" + tong + "</td></tr>";
+                    $("#tbdanhsach").append(them);
+                    $("#mymodal").modal("hide");
+                    return true;
+                }
+            });
+        });
+    </script>
+    <script>
+      $(document).ready(function(){
+        
+      })
+    </script>
+</head>
+
+<body>
+    <div class="container border">
+        <div class="row">
+            <div class="col-12">
+                <img src="../img/swimming-pool-water-background-a-captivating-visual-the-on-perfect-for-backgrounds-and-textures_9980798.jpg!w700wp" width="100%" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <nav class="navbar">
+                <ul class="nav nav-navbar navbar-expand">
+                    <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" id="btndk">Đăng ký</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Trợ giúp</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row">
+            <table class="table-bordered table-light table-primary table-hover table table-striped" id="tbdanhsach">
+                <tr>
+                    <th>STT</th>
+                    <th>Mã học viên</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Tiền dịch vụ</th>
+                    <th>Tiền đã dùng</th>
+                    <th>Tổng tiền</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>123456</td>
+                    <td>Nguyen Van A</td>
+                    <td>a@gmail.com</td>
+                    <td>100000</td>
+                    <td>200000</td>
+                    <td>300000</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel">Thông tin thanh toán</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form">
+                                <div class="form-group">
+                                    <label for="txtma">Mã học viên</label>
+                                    <input type="text" class="form-control" id="txtma" placeholder="123456789">
+                                    <span id="tbma" class="maudo">*</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtht">Họ tên</label>
+                                    <input type="text" class="form-control" id="txtht" placeholder="Nguyen Van A">
+                                    <span id="tbten" class="maudo">*</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtdc">Email</label>
+                                    <input type="text" class="form-control" id="txtdc" placeholder="example@gmail.com">
+                                    <span id="tbemail" class="maudo">*</span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="slgia">Dịch vụ</label>
+                                    <select class="form-control" id="slgia">
+                                        <option value="2000">Bơi</option>
+                                        <option value="3000">Trượt ván</option>
+                                        <option value="5000">Moto nước</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txtdv">Giá tiền</label>
+                                    <input type="text" class="form-control" id="txtdv" disabled>
+                                </div>
+                                <div class="row p-1">
+                                  <div class="col-4 col-sm-3">
+                                    <label for="">Đồ dùng</label>
+                                  </div>
+                                  <div class="col-8 c0l-sm-6">
+                                    <input type="checkbox" name="chkdodung" id="chkdodung" value="2000">Áo quần bơi
+                                  </div>
+                                </div>
+                                <div class="row p-1">
+                                  <div class="col-4 col-sm-3">
+                                    <label for=""></label>
+                                  </div>
+                                  <div class="col-8 c0l-sm-6">
+                                    <input type="checkbox" name="chkdodung" id="chkdodung" value="5000">Phao
+                                  </div>
+                                </div>
+                                <div class="row p-1">
+                                  <div class="col-4 col-sm-3">
+                                    <label for=""></label>
+                                  </div>
+                                  <div class="col-8 c0l-sm-6">
+                                    <input type="checkbox" name="chkdodung" id="chkdodung" value="7000">Kính bơi
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtdd">Tiền đồ dùng</label>
+                                    <input type="text" name="txtdd" class="form-control" id="txtdd" value="0" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="txttong">Tổng tiền</label>
+                                    <input type="text" class="form-control" id="txttong" disabled>
+                                </div>
+
+                                <button type="button" id="btnsave" class="btn btn-success btn-block">Thanh toán</button>
+                                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal">Hủy</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <h4>Trang thanh toán</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4 col-md-4">
+                <h6>Mã sinh viên :22715951</h6>
+            </div>
+            <div class="col-4 col-md-4">
+                <h6>Họ tên Trịnh Công Tuyền</h6>
+            </div>
+            <div class="col-4 col-md-4">
+                <h6>Phòng thi</h6>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
